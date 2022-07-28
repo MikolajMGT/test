@@ -35,20 +35,21 @@ function App() {
   const prepareUsersSummary = () => {
 
     return (
-      <table id='customers'>
-        <tr>
-          <th>User's Name</th>
-          <th>User's friends</th>
-          <th>User's groups</th>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <table id='customers'>
+          <tr>
+            <th>User's Name</th>
+            <th>User's friends</th>
+            <th>User's groups</th>
+          </tr>
           {users?.map((user) => (
             <tr>
               <UserInfo client={client} user={user}/>
             </tr>
           ))
-
           }
-        </tr>
-      </table>
+        </table>
+      </div>
     )
     // return users?.map((user) => {
     //   return (
