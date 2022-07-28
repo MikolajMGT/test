@@ -1,17 +1,20 @@
 import React, {FC, useEffect, useState} from 'react';
 import './App.css';
-import {Client, Friend, Group, User} from '@heroiclabs/nakama-js';
+import {Client, Friend, Group, LeaderboardRecord, User} from '@heroiclabs/nakama-js';
 
 function App() {
   const client = new Client("defaultkey", "34.136.88.26", "7350");
 
   const [users, setUsers] = useState<User[]>()
+  const [leaderboard, setLeaderBoard] = useState<LeaderboardRecord[]>()
 
   useEffect(() => {
     async function load() {
       const session = await client.authenticateEmail("nicolas.migut@evemeta.com", "Strong123")
       const response = await client.getUsers(session, [], ["wcffKUOcAF", "jVmAlARRwX", "tmUjmwuhDt"])
       setUsers(response.users)
+      const leaders = await client.listLeaderboardRecords(session, "global")
+      setLeaderBoard(leaders.records)
       console.log(response)
     }
     load().then(async (resp) => {
@@ -28,12 +31,30 @@ function App() {
     });
   }
 
-  return (
-    <div>
+  const prepareLeaderBoard = () => {
+
+    return leaderboard?.map((item) => (
       <div>
-        <div>Info about users</div>
+        <pre style={{marginLeft: '20px'}}>{JSON.stringify(item, null, 2)}</pre>
+      </div>
+    ))
+  }
+
+
+  return (
+    <div style={{marginLeft: '20px'}}>
+      <div>
+        <h1>Info about users</h1>
         <br/>
         {prepareUsersSummary()}
+      </div>
+      <hr/>
+      <hr/>
+      <hr/>
+      <div>
+        <h1>Leaderboard</h1>
+        <br/>
+        {prepareLeaderBoard()}
       </div>
     </div>
   );
@@ -60,6 +81,7 @@ export const UserInfo: FC<UserProps> = (props) => {
       const session = await client.authenticateDevice(id)
       const friends = await client.listFriends(session)
       const groups = await client.listGroups(session)
+
       setFriends(friends.friends)
       setGroups(groups.groups)
     }
@@ -74,11 +96,11 @@ export const UserInfo: FC<UserProps> = (props) => {
   return (
     <div style={{marginLeft: '10px'}}>
       <div>
-        <div>UserInfo:</div>
+        <h2>UserInfo:</h2>
         <pre style={{marginLeft: '20px'}}>{JSON.stringify(user, null, 2)}</pre>
-        <div>Friends:</div>
+        <h2>Friends:</h2>
         <pre style={{marginLeft: '20px'}}>{JSON.stringify(friends, null, 2)}</pre>
-        <div>Groups:</div>
+        <h2>Groups:</h2>
         <pre style={{marginLeft: '20px'}}>{JSON.stringify(groups, null, 2)}</pre>
       </div>
       <hr/>
