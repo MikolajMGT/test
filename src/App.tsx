@@ -75,11 +75,11 @@ export const UserInfo: FC<UserProps> = (props) => {
     <div style={{marginLeft: '10px'}}>
       <div>
         <div>UserInfo:</div>
-        <div style={{marginLeft: '20px'}}>{JSON.stringify(user, null, 2)}</div>
+        <pre style={{marginLeft: '20px'}}>{JSON.stringify(user, null, 2)}</pre>
         <div>Friends:</div>
-        <div style={{marginLeft: '20px'}}>{JSON.stringify(friends, null, 2)}</div>
+        <pre style={{marginLeft: '20px'}}>{JSON.stringify(friends, null, 2)}</pre>
         <div>Groups:</div>
-        <div style={{marginLeft: '20px'}}>{JSON.stringify(groups, null, 2)}</div>
+        <pre style={{marginLeft: '20px'}}>{JSON.stringify(groups, null, 2)}</pre>
       </div>
       <hr/>
     </div>
