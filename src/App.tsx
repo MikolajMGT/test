@@ -61,6 +61,8 @@ function App() {
 
   const prepareMatches = () => {
 
+    if (matchesSet?.length === 0) return <div>No data</div>
+
     return matchesSet?.map((item) => (
       <div>
         <pre style={{marginLeft: '20px'}}>{JSON.stringify(item, null, 2)}</pre>
@@ -69,6 +71,8 @@ function App() {
   }
 
   const prepareTournaments = () => {
+
+    if (tournamentsSet?.length === 0) return <div>No data</div>
 
     return tournamentsSet?.map((item) => (
       <div>
@@ -129,6 +133,7 @@ export const UserInfo: FC<UserProps> = (props) => {
 
   const [friends, setFriends] = useState<Friend[]>()
   const [groups, setGroups] = useState<Group[]>()
+  const [notifications, setNotifications] = useState<Notification[]>()
 
   useEffect(() => {
     async function load() {
@@ -141,6 +146,7 @@ export const UserInfo: FC<UserProps> = (props) => {
       const session = await client.authenticateDevice(id)
       const friends = await client.listFriends(session)
       const groups = await client.listGroups(session)
+      const notifications = await client.listNotifications(session)
 
       setFriends(friends.friends)
       setGroups(groups.groups)
@@ -162,6 +168,8 @@ export const UserInfo: FC<UserProps> = (props) => {
         <pre style={{marginLeft: '40px'}}>{JSON.stringify(friends, null, 2)}</pre>
         <h2 style={{marginLeft: '20px'}}>User's Groups:</h2>
         <pre style={{marginLeft: '40px'}}>{JSON.stringify(groups, null, 2)}</pre>
+        <h2 style={{marginLeft: '20px'}}>User's Notifications:</h2>
+        <pre style={{marginLeft: '40px'}}>{JSON.stringify(notifications, null, 2)}</pre>
       </div>
       <hr/>
     </div>
