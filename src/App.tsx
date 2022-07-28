@@ -34,11 +34,27 @@ function App() {
 
   const prepareUsersSummary = () => {
 
-    return users?.map((user) => {
-      return (
-        <UserInfo client={client} user={user}/>
-      )
-    });
+    return (
+      <table id='customers'>
+        <tr>
+          <th>User's Name</th>
+          <th>User's friends</th>
+          <th>User's groups</th>
+          {users?.map((user) => (
+            <tr>
+              <UserInfo client={client} user={user}/>
+            </tr>
+          ))
+
+          }
+        </tr>
+      </table>
+    )
+    // return users?.map((user) => {
+    //   return (
+    //     <UserInfo client={client} user={user}/>
+    //   )
+    // });
   }
 
   const prepareLeaderBoard = () => {
@@ -161,20 +177,11 @@ export const UserInfo: FC<UserProps> = (props) => {
   }, [friends, groups])
 
   return (
-    <div style={{marginLeft: '10px'}}>
-      <div>
-        <h2>UserInfo:</h2>
-        <pre style={{marginLeft: '20px'}}>{JSON.stringify(user, null, 2)}</pre>
-        <h2 style={{marginLeft: '20px'}}>User's Friends:</h2>
-        <pre style={{marginLeft: '40px'}}>{JSON.stringify(friends, null, 2)}</pre>
-        <h2 style={{marginLeft: '20px'}}>User's Groups:</h2>
-        <pre style={{marginLeft: '40px'}}>{JSON.stringify(groups, null, 2)}</pre>
-        <h2 style={{marginLeft: '20px'}}>User's Notifications:</h2>
-        <pre style={{marginLeft: '40px'}}>{JSON.stringify(notifications, null, 2)}</pre>
-        {notifications?.length === 0 && <div>no data</div>}
-      </div>
-      <hr/>
-    </div>
+    <tr>
+      <td>{user.display_name}</td>
+      <td>{friends?.map((friend) => friend.user?.display_name)}</td>
+      <td>{groups?.map((group) => group.name)}</td>
+    </tr>
   )
 }
 
