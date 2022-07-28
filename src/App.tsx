@@ -3,7 +3,7 @@ import './App.css';
 import {Client, User} from '@heroiclabs/nakama-js';
 
 function App() {
-  const client = new Client("defaultkey", "35.222.184.157", "7350");
+  const client = new Client("defaultkey", "34.136.88.26", "7350");
 
   const [users, setUsers] = useState<User[]>()
   const [summary, setSummary] = useState<any>()
