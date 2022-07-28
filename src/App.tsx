@@ -69,7 +69,7 @@ function App() {
           {leaderboard?.map((item) => (
           <tr>
             <td>{item.rank}</td>
-            <td>{users?.find((user) => user.display_name === item.username)?.display_name}</td>
+            <td>{users?.find((user) => user.username === item.username)?.display_name}</td>
             <td>{item.score}</td>
           </tr>))}
         </table>
