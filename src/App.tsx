@@ -66,13 +66,13 @@ function App() {
             <th>User name</th>
             <th>Score</th>
           </tr>
+          ${leaderboard?.map((item) => (
+          <tr>
+            <td>${item.rank}</td>
+            <td>${item.username}</td>
+            <td>${item.score}</td>
+          </tr>))}
         </table>
-        ${leaderboard?.map((item) => (
-        <tr>
-          <td>${item.rank}</td>
-          <td>${item.username}</td>
-          <td>${item.score}</td>
-        </tr>))}
       </div>
     )
   }
@@ -127,8 +127,6 @@ function App() {
         <br/>
         {prepareMatches()}
       </div>
-      <hr/>
-      <hr/>
       <hr/>
       <div>
         <h1>Tournaments</h1>
