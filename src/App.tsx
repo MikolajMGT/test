@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     async function load() {
       const session = await client.authenticateEmail("nicolas.migut@evemeta.com", "Strong123")
-      const response = await client.getUsers(session, ["wcffKUOcAF", "jVmAlARRwX", "tmUjmwuhDt"])
+      const response = await client.getUsers(session, [], ["wcffKUOcAF", "jVmAlARRwX", "tmUjmwuhDt"])
       setUsers(response.users)
       console.log(response)
     }
