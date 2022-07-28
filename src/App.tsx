@@ -31,6 +31,8 @@ function App() {
   return (
     <div>
       <div>
+        <div>Info about users</div>
+        <br/>
         {prepareUsersSummary()}
       </div>
     </div>
@@ -70,14 +72,14 @@ export const UserInfo: FC<UserProps> = (props) => {
   }, [friends, groups])
 
   return (
-    <div>
+    <div style={{marginLeft: '10px'}}>
       <div>
-        <div>Info about User:</div>
-        <div>{JSON.stringify(user)}</div>
+        <div>UserInfo:</div>
+        <div style={{marginLeft: '20px'}}>{JSON.stringify(user, null, 2)}</div>
         <div>Friends:</div>
-        <div>{JSON.stringify(friends)}</div>
+        <div style={{marginLeft: '20px'}}>{JSON.stringify(friends, null, 2)}</div>
         <div>Groups:</div>
-        <div>{JSON.stringify(groups)}</div>
+        <div style={{marginLeft: '20px'}}>{JSON.stringify(groups, null, 2)}</div>
       </div>
       <hr/>
     </div>
