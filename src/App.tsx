@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import './App.css';
-import {Client, Friend, Group, LeaderboardRecord, StorageObject, User} from '@heroiclabs/nakama-js';
+import {Client, Friend, Group, LeaderboardRecord, MatchData, StorageObject, User} from '@heroiclabs/nakama-js';
+import {ApiMatch} from '@heroiclabs/nakama-js/dist/api.gen';
 
 function App() {
   const client = new Client("defaultkey", "34.136.88.26", "7350");
@@ -8,6 +9,7 @@ function App() {
   const [users, setUsers] = useState<User[]>()
   const [leaderboard, setLeaderBoard] = useState<LeaderboardRecord[]>()
   const [cardsSet, setCardsSet] = useState<StorageObject[]>()
+  const [matchesSet, setMatchesSet] = useState<ApiMatch[]>()
 
   useEffect(() => {
     async function load() {
@@ -16,6 +18,8 @@ function App() {
       setUsers(response.users)
       const leaders = await client.listLeaderboardRecords(session, "global", [], 10)
       const cards = await client.listStorageObjects(session, "card_collection")
+      const matches = await client.listMatches(session, 10)
+      setMatchesSet(matches.matches)
       setCardsSet(cards.objects)
       setLeaderBoard(leaders.records)
       console.log(response)
@@ -52,6 +56,14 @@ function App() {
     ))
   }
 
+  const prepareMatches = () => {
+
+    return matchesSet?.map((item) => (
+      <div>
+        <pre style={{marginLeft: '20px'}}>{JSON.stringify(item, null, 2)}</pre>
+      </div>
+    ))
+  }
 
   return (
     <div style={{marginLeft: '20px'}}>
@@ -72,9 +84,17 @@ function App() {
       <hr/>
       <hr/>
       <div>
-        <h1>Game Cards By User</h1>
+        <h1>User's Game Cards</h1>
         <br/>
         {prepareCards()}
+      </div>
+      <hr/>
+      <hr/>
+      <hr/>
+      <div>
+        <h1>Matches being played right now</h1>
+        <br/>
+        {prepareMatches()}
       </div>
     </div>
   );
@@ -102,6 +122,8 @@ export const UserInfo: FC<UserProps> = (props) => {
       const friends = await client.listFriends(session)
       const groups = await client.listGroups(session)
 
+      client.joinTournament(session, "amazing tournament")
+
       setFriends(friends.friends)
       setGroups(groups.groups)
     }
@@ -118,10 +140,10 @@ export const UserInfo: FC<UserProps> = (props) => {
       <div>
         <h2>UserInfo:</h2>
         <pre style={{marginLeft: '20px'}}>{JSON.stringify(user, null, 2)}</pre>
-        <h2>Friends:</h2>
-        <pre style={{marginLeft: '20px'}}>{JSON.stringify(friends, null, 2)}</pre>
-        <h2>Groups:</h2>
-        <pre style={{marginLeft: '20px'}}>{JSON.stringify(groups, null, 2)}</pre>
+        <h2>User's Friends:</h2>
+        <pre style={{marginLeft: '40px'}}>{JSON.stringify(friends, null, 2)}</pre>
+        <h2>User's Groups:</h2>
+        <pre style={{marginLeft: '40px'}}>{JSON.stringify(groups, null, 2)}</pre>
       </div>
       <hr/>
     </div>
