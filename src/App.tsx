@@ -13,7 +13,7 @@ function App() {
       const session = await client.authenticateEmail("nicolas.migut@evemeta.com", "Strong123")
       const response = await client.getUsers(session, [], ["wcffKUOcAF", "jVmAlARRwX", "tmUjmwuhDt"])
       setUsers(response.users)
-      const leaders = await client.listLeaderboardRecords(session, "global")
+      const leaders = await client.listLeaderboardRecords(session, "global", [], 10)
       setLeaderBoard(leaders.records)
       console.log(response)
     }
