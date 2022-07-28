@@ -10,6 +10,7 @@ function App() {
   const [leaderboard, setLeaderBoard] = useState<LeaderboardRecord[]>()
   const [cardsSet, setCardsSet] = useState<StorageObject[]>()
   const [matchesSet, setMatchesSet] = useState<ApiMatch[]>()
+  const [tournamentsSet, setTournamentsSet] = useState<ApiMatch[]>()
 
   useEffect(() => {
     async function load() {
@@ -19,9 +20,11 @@ function App() {
       const leaders = await client.listLeaderboardRecords(session, "global", [], 10)
       const cards = await client.listStorageObjects(session, "card_collection")
       const matches = await client.listMatches(session, 10)
-      setMatchesSet(matches.matches)
-      setCardsSet(cards.objects)
-      setLeaderBoard(leaders.records)
+      const tournaments = await client.listTournaments(session, undefined, undefined, undefined, undefined, 10)
+      setMatchesSet(matches.matches ?? [])
+      setCardsSet(cards.objects ?? [])
+      setLeaderBoard(leaders.records ?? [])
+      setTournamentsSet(tournaments.tournaments ?? [])
       console.log(response)
     }
     load().then(async (resp) => {
@@ -65,6 +68,15 @@ function App() {
     ))
   }
 
+  const prepareTournaments = () => {
+
+    return tournamentsSet?.map((item) => (
+      <div>
+        <pre style={{marginLeft: '20px'}}>{JSON.stringify(item, null, 2)}</pre>
+      </div>
+    ))
+  }
+
   return (
     <div style={{marginLeft: '20px'}}>
       <div>
@@ -96,6 +108,14 @@ function App() {
         <br/>
         {prepareMatches()}
       </div>
+      <hr/>
+      <hr/>
+      <hr/>
+      <div>
+        <h1>Tournaments</h1>
+        <br/>
+        {prepareTournaments()}
+      </div>
     </div>
   );
 }
@@ -122,7 +142,7 @@ export const UserInfo: FC<UserProps> = (props) => {
       const friends = await client.listFriends(session)
       const groups = await client.listGroups(session)
 
-      client.joinTournament(session, "amazing tournament")
+      client.joinTournament(session, "amazingTournament")
 
       setFriends(friends.friends)
       setGroups(groups.groups)
@@ -140,9 +160,9 @@ export const UserInfo: FC<UserProps> = (props) => {
       <div>
         <h2>UserInfo:</h2>
         <pre style={{marginLeft: '20px'}}>{JSON.stringify(user, null, 2)}</pre>
-        <h2>User's Friends:</h2>
+        <h2 style={{marginLeft: '20px'}}>User's Friends:</h2>
         <pre style={{marginLeft: '40px'}}>{JSON.stringify(friends, null, 2)}</pre>
-        <h2>User's Groups:</h2>
+        <h2 style={{marginLeft: '20px'}}>User's Groups:</h2>
         <pre style={{marginLeft: '40px'}}>{JSON.stringify(groups, null, 2)}</pre>
       </div>
       <hr/>
