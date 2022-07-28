@@ -1,12 +1,13 @@
 import React, {FC, useEffect, useState} from 'react';
 import './App.css';
-import {Client, Friend, Group, LeaderboardRecord, User} from '@heroiclabs/nakama-js';
+import {Client, Friend, Group, LeaderboardRecord, StorageObject, User} from '@heroiclabs/nakama-js';
 
 function App() {
   const client = new Client("defaultkey", "34.136.88.26", "7350");
 
   const [users, setUsers] = useState<User[]>()
   const [leaderboard, setLeaderBoard] = useState<LeaderboardRecord[]>()
+  const [cardsSet, setCardsSet] = useState<StorageObject[]>()
 
   useEffect(() => {
     async function load() {
@@ -14,6 +15,8 @@ function App() {
       const response = await client.getUsers(session, [], ["wcffKUOcAF", "jVmAlARRwX", "tmUjmwuhDt"])
       setUsers(response.users)
       const leaders = await client.listLeaderboardRecords(session, "global", [], 10)
+      const cards = await client.listStorageObjects(session, "card_collection")
+      setCardsSet(cards.objects)
       setLeaderBoard(leaders.records)
       console.log(response)
     }
@@ -40,6 +43,15 @@ function App() {
     ))
   }
 
+  const prepareCards = () => {
+
+    return cardsSet?.map((item) => (
+      <div>
+        <pre style={{marginLeft: '20px'}}>{JSON.stringify(item, null, 2)}</pre>
+      </div>
+    ))
+  }
+
 
   return (
     <div style={{marginLeft: '20px'}}>
@@ -52,9 +64,17 @@ function App() {
       <hr/>
       <hr/>
       <div>
-        <h1>Leaderboard</h1>
+        <h1>Leaderboard Records</h1>
         <br/>
         {prepareLeaderBoard()}
+      </div>
+      <hr/>
+      <hr/>
+      <hr/>
+      <div>
+        <h1>Game Cards By User</h1>
+        <br/>
+        {prepareCards()}
       </div>
     </div>
   );
