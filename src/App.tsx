@@ -58,11 +58,23 @@ function App() {
 
   const prepareLeaderBoard = () => {
 
-    return leaderboard?.map((item) => (
+    return (
       <div>
-        <pre style={{marginLeft: '20px'}}>{JSON.stringify(item, null, 2)}</pre>
+        <table id='customers'>
+          <tr>
+            <th>Rank</th>
+            <th>User name</th>
+            <th>Score</th>
+          </tr>
+        </table>
+        ${leaderboard?.map((item) => (
+        <tr>
+          <td>${item.rank}</td>
+          <td>${item.username}</td>
+          <td>${item.score}</td>
+        </tr>))}
       </div>
-    ))
+    )
   }
 
   const prepareCards = () => {
@@ -104,23 +116,11 @@ function App() {
         {prepareUsersSummary()}
       </div>
       <hr/>
-      <hr/>
-      <hr/>
       <div>
-        <h1>Leaderboard Records</h1>
+        <h1>Pirate Games Leaderboard</h1>
         <br/>
         {prepareLeaderBoard()}
       </div>
-      <hr/>
-      <hr/>
-      <hr/>
-      <div>
-        <h1>User's Game Cards</h1>
-        <br/>
-        {prepareCards()}
-      </div>
-      <hr/>
-      <hr/>
       <hr/>
       <div>
         <h1>Matches being played right now</h1>
@@ -178,7 +178,7 @@ export const UserInfo: FC<UserProps> = (props) => {
   return (
     <tr>
       <td>{user.display_name}</td>
-      <td>{friends?.map((friend) => `${friend.user?.display_name},`)}</td>
+      <td>{friends?.map((friend) => `${friend.user?.display_name}, `)}</td>
       <td>{groups?.map((group) => `${group.name}, `)}</td>
     </tr>
   )
