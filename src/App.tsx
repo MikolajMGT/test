@@ -43,9 +43,7 @@ function App() {
             <th>User's groups</th>
           </tr>
           {users?.map((user) => (
-            <tr>
-              <UserInfo client={client} user={user}/>
-            </tr>
+            <UserInfo client={client} user={user}/>
           ))
           }
         </table>
@@ -180,8 +178,8 @@ export const UserInfo: FC<UserProps> = (props) => {
   return (
     <tr>
       <td>{user.display_name}</td>
-      <td>{friends?.map((friend) => friend.user?.display_name)}</td>
-      <td>{groups?.map((group) => group.name)}</td>
+      <td>{friends?.map((friend) => `${friend.user?.display_name},`)}</td>
+      <td>{groups?.map((group) => `${group.name}, `)}</td>
     </tr>
   )
 }
