@@ -21,9 +21,9 @@ function App() {
     })
   }, [])
 
-  const prepareUsersSummary = async () => {
+  const prepareUsersSummary = () => {
 
-    return users?.map(async (user) => {
+    return users?.map((user) => {
       return (
         <UserInfo client={client} user={user}/>
       )
