@@ -142,8 +142,6 @@ export const UserInfo: FC<UserProps> = (props) => {
       const friends = await client.listFriends(session)
       const groups = await client.listGroups(session)
 
-      client.joinTournament(session, "amazingTournament")
-
       setFriends(friends.friends)
       setGroups(groups.groups)
     }
