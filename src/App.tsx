@@ -66,11 +66,11 @@ function App() {
             <th>User name</th>
             <th>Score</th>
           </tr>
-          ${leaderboard?.map((item) => (
+          {leaderboard?.map((item) => (
           <tr>
-            <td>${item.rank}</td>
-            <td>${item.username}</td>
-            <td>${item.score}</td>
+            <td>{item.rank}</td>
+            <td>{users?.find((user) => user.display_name === item.username)?.display_name}</td>
+            <td>{item.score}</td>
           </tr>))}
         </table>
       </div>
