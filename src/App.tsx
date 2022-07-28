@@ -6,7 +6,6 @@ function App() {
   const client = new Client("defaultkey", "34.136.88.26", "7350");
 
   const [users, setUsers] = useState<User[]>()
-  const [summary, setSummary] = useState<any>()
 
   useEffect(() => {
     async function load() {
@@ -16,8 +15,7 @@ function App() {
       console.log(response)
     }
     load().then(async (resp) => {
-      const res = prepareUsersSummary()
-      setSummary(res)
+
     })
   }, [])
 
@@ -33,7 +31,7 @@ function App() {
   return (
     <div>
       <div>
-        {summary}
+        {prepareUsersSummary()}
       </div>
     </div>
   );
@@ -66,6 +64,10 @@ export const UserInfo: FC<UserProps> = (props) => {
     load().then(async (resp) => {
     })
   }, [])
+
+  useEffect(() => {
+    console.log(friends, groups)
+  }, [friends, groups])
 
   return (
     <div>
