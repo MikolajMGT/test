@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import './App.css';
-import {Client, Friend, Group, LeaderboardRecord, MatchData, StorageObject, User} from '@heroiclabs/nakama-js';
+import {Client, Friend, Group, LeaderboardRecord, Notification, StorageObject, User} from '@heroiclabs/nakama-js';
 import {ApiMatch} from '@heroiclabs/nakama-js/dist/api.gen';
 
 function App() {
@@ -61,7 +61,7 @@ function App() {
 
   const prepareMatches = () => {
 
-    if (matchesSet?.length === 0) return <div>No data</div>
+    if (matchesSet?.length === 0) return <div style={{margin: '10px'}}>No data</div>
 
     return matchesSet?.map((item) => (
       <div>
@@ -72,7 +72,7 @@ function App() {
 
   const prepareTournaments = () => {
 
-    if (tournamentsSet?.length === 0) return <div>No data</div>
+    if (tournamentsSet?.length === 0) return <div style={{margin: '10px'}}>No data</div>
 
     return tournamentsSet?.map((item) => (
       <div>
@@ -150,6 +150,7 @@ export const UserInfo: FC<UserProps> = (props) => {
 
       setFriends(friends.friends)
       setGroups(groups.groups)
+      setNotifications(notifications.notifications ?? [])
     }
     load().then(async (resp) => {
     })
@@ -170,6 +171,7 @@ export const UserInfo: FC<UserProps> = (props) => {
         <pre style={{marginLeft: '40px'}}>{JSON.stringify(groups, null, 2)}</pre>
         <h2 style={{marginLeft: '20px'}}>User's Notifications:</h2>
         <pre style={{marginLeft: '40px'}}>{JSON.stringify(notifications, null, 2)}</pre>
+        {notifications?.length === 0 && <div>no data</div>}
       </div>
       <hr/>
     </div>
